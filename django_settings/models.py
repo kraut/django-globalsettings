@@ -17,8 +17,6 @@ class BaseSetting(models.Model):
         return u'%s' % self.value
 
 
-class Boolean(BaseSetting):
-    value = models.NullBooleanField(default=False)
 
 class String(BaseSetting):
     value = models.CharField(max_length=254)

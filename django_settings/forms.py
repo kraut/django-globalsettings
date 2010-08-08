@@ -51,11 +51,7 @@ class SettingForm(forms.ModelForm):
             setting_object.delete()
 
         SettingClass = cd['setting_type'].model_class()
-        def cast(a):
-            return a
-        if SettingClass is models.Boolean:
-            cast = bool
-        setting_object= SettingClass.objects.create(value=cast(cd['value']))
+        setting_object= SettingClass.objects.create(value=cd['value'])
 
         kwargs['commit'] = False
         instance = forms.ModelForm.save(self, *args, **kwargs)
