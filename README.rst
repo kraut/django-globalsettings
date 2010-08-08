@@ -20,6 +20,9 @@ API
   # setting values
   models.Setting.objects.set_value('admin_email', models.String, 'admin@admin.com')
 
+  #optional you can specify a description:
+  models.Setting.objects.set_value('pseudo_bool', models.Integer, '1', desc='demonstrate desc param u pseudo bool')
+
   # checking if value exists
   models.Setting.objects.value_object_exists('admin_email')
 
