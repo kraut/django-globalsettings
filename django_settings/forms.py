@@ -12,15 +12,15 @@ from django_settings import models
 class SettingForm(forms.ModelForm):
     class Meta:
         model = models.Setting
-        fields = ('setting_type', 'name')
-
+        fields = ('setting_type', 'name' )
     value = forms.CharField()
+
 
 
     def __init__(self, *a, **kw):
         forms.ModelForm.__init__(self, *a, **kw)
         self.fields['setting_type'].queryset = ContentType.objects.filter(
-            Q(name='string') | Q(name='integer') | Q(name='positive integer'))
+            Q(name='string') | Q(name='integer') | Q(name='positive integer') | Q(name='boolean'))
 
         instance = kw.get('instance')
         if instance:
@@ -51,7 +51,11 @@ class SettingForm(forms.ModelForm):
             setting_object.delete()
 
         SettingClass = cd['setting_type'].model_class()
-        setting_object= SettingClass.objects.create(value=cd['value'])
+        def cast(a):
+            return a
+        if SettingClass is models.Boolean:
+            cast = bool
+        setting_object= SettingClass.objects.create(value=cast(cd['value']))
 
         kwargs['commit'] = False
         instance = forms.ModelForm.save(self, *args, **kwargs)

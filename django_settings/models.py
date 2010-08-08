@@ -9,6 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class BaseSetting(models.Model):
+    
     class Meta:
         abstract = True
 
@@ -16,6 +17,8 @@ class BaseSetting(models.Model):
         return u'%s' % self.value
 
 
+class Boolean(BaseSetting):
+    value = models.NullBooleanField(default=False)
 
 class String(BaseSetting):
     value = models.CharField(max_length=254)
@@ -45,15 +48,17 @@ class SettingManager(models.Manager):
         return queryset.exists() and queryset[0].setting_object
 
 
-    def set_value(self, name, SettingClass, value):
-        setting = Setting(name=name)
+    def set_value(self, name, SettingClass, value, desc=''):
+        setting = Setting(name=name, description=desc)
 
         if self.value_object_exists(name):
             setting = self.get(name=name)
             setting_object = setting.setting_object
             setting_object.delete()
 
-        setting.setting_object = SettingClass.objects.create(value=value)
+        setting.setting_object = SettingClass.objects.create(value=value)#,
+               
+                #description=desc)
         setting.save()
         return setting
 
@@ -71,3 +76,4 @@ class Setting(models.Model):
     setting_object = generic.GenericForeignKey('setting_type', 'setting_id')
 
     name = models.CharField(max_length=255)
+    description = models.TextField(_('description'))
