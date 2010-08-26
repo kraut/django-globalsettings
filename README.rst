@@ -42,7 +42,12 @@ There is ability to setup some defaults via project settings.py file:
 Settings types 
 --------------
 
-Currently there are three setting types supported: Integer, String, PositiveInteger
+Currently there are three setting types supported: 
+ * Integer, 
+ * String, 
+ * PositiveInteger,
+ * Bool,
+ * Date
 
 
 
