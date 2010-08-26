@@ -27,7 +27,6 @@ class SettingForm(forms.ModelForm):
         setting_type.queryset = ContentType.objects.filter( 
                 Q(app_label='django_settings') ).exclude(name='Setting')
         if instance and 'value' in self.fields.keys():
-            print "after"
             self.fields['value'].required = False 
             value = getattr(instance.setting_object, 'value', '')
             #set original form field for validation
@@ -43,6 +42,7 @@ class SettingForm(forms.ModelForm):
                 self.fields['value'].widget=widget
             self.fields['value'].label = instance.name
             self.fields['value'].help_text = instance.description
+            self.fields['value'].required = instance.is_required
 
 
     def save(self, *args, **kwargs):

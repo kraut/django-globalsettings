@@ -52,8 +52,8 @@ class SettingManager(models.Manager):
         return queryset.exists() and queryset[0].setting_object
 
 
-    def set_value(self, name, SettingClass, value, desc=''):
-        setting = Setting(name=name, description=desc)
+    def set_value(self, name, SettingClass, value, desc='', is_required = True):
+        setting = Setting(name=name, description=desc, is_required=is_required)
 
         if self.value_object_exists(name):
             setting = self.get(name=name)
