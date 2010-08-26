@@ -35,7 +35,7 @@ class Boolean(BaseSetting):
     value = models.BooleanField()
 
 class Date(BaseSetting):
-    value = models.DateField( auto_now=True, auto_now_add=True)
+    value = models.DateField( auto_now_add=True)
     widget = extras.widgets.SelectDateWidget()
 
 
