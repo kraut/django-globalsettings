@@ -24,9 +24,8 @@ class SettingForm(forms.ModelForm):
             setting_type = self.fields['setting_type']
         elif instance:
             setting_type = instance.setting_type
-        setting_type.queryset = ContentType.objects.filter(
-            Q(name='string') | Q(name='integer') | Q(name='positive integer') | 
-            Q(name='boolean')| Q(name='date'))
+        setting_type.queryset = ContentType.objects.filter( 
+                Q(app_label='django_settings') ).exclude(name='Setting')
         if instance and 'value' in self.fields.keys():
             print "after"
             self.fields['value'].required = False 
@@ -61,7 +60,7 @@ class SettingForm(forms.ModelForm):
         SettingClass = setting_type.model_class()
 
         setting_object= SettingClass.objects.create()
-        if 'value' in cd.keys() and cd['value'] != "":#we have no ajax right now thats why first time 
+        if 'value' in cd.keys() and cd['value']:#we have no ajax right now thats why first time 
                                 #creation is without a nice gui. so allow empty 
                                 #values.
             setting_object.value = cd['value']
