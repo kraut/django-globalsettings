@@ -5,8 +5,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
-
-
+from django.forms import extras
 
 class BaseSetting(models.Model):
     
@@ -19,18 +18,25 @@ class BaseSetting(models.Model):
 
 
 class String(BaseSetting):
-    value = models.CharField(max_length=254)
+    value = models.CharField(max_length=254, null=True)
 
 
 
 class Integer(BaseSetting):
-    value = models.IntegerField()
+    value = models.IntegerField(null=True)
 
 
 
 class PositiveInteger(BaseSetting):
-    value = models.PositiveIntegerField()
+    value = models.PositiveIntegerField(null=True)
 
+
+class Boolean(BaseSetting):
+    value = models.BooleanField()
+
+class Date(BaseSetting):
+    value = models.DateField( auto_now_add=True)
+    widget = extras.widgets.SelectDateWidget()
 
 
 class SettingManager(models.Manager):
@@ -75,3 +81,4 @@ class Setting(models.Model):
 
     name = models.CharField(max_length=255)
     description = models.TextField(_('description'))
+    is_required = models.BooleanField(_('required'))
