@@ -35,7 +35,7 @@ class Boolean(BaseSetting):
     value = models.BooleanField()
 
 class Date(BaseSetting):
-    value = models.DateField( auto_now_add=True)
+    value = models.DateField( null=True)#auto_now_add=True)
     widget = extras.widgets.SelectDateWidget()
 
 
@@ -61,7 +61,7 @@ class SettingManager(models.Manager):
             setting_object.delete()
 
         setting.setting_object = SettingClass.objects.create(value=value)#,
-               
+        setting.setting_object.value=value #needed for date
                 #description=desc)
         setting.save()
         return setting
