@@ -20,7 +20,8 @@ class BaseSetting(models.Model):
 class String(BaseSetting):
     value = models.CharField(max_length=254, null=True)
 
-
+class Text(BaseSetting):
+    value = models.TextField(null=True)
 
 class Integer(BaseSetting):
     value = models.IntegerField(null=True)
